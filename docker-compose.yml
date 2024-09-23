@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  chrome-novnc:
+    container_name: no-vnc-pulse-audio-chrome  # Updated container name
+    environment:
+      - VNC_PASS=${VNC_PASS-CHANGE_IT}
+      - VNC_TITLE=${VNC_TITLE-Chromium}
+      - VNC_SHARED=${VNC_SHARED-false}
+      - VNC_RESOLUTION=${VNC_RESOLUTION-1280x720}
+      - PULSE_SERVER=unix:/run/pulse/native
+      - PORT=8080
+    image: no-vnc-pulse-audio-chrome-image # Updated image name
+    volumes:
+      - /run/pulse/native:/run/pulse/native
+      - ~/.config/pulse/cookie:/root/.config/pulse/cookie
+    ports:
+      - "${HOST_PORT-8080}:8080/tcp"
+      - "56780:56780/tcp"  # Added second port
+    restart: always
